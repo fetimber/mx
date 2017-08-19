@@ -350,12 +350,12 @@
 	</head>
 	<body>
 		<div class="home">
-			<img src="resources/images/icon_home.png" width="20" height="20" />获奖职工库&nbsp;>&nbsp;获奖职工管理&nbsp;>&nbsp;
+			<img src="resources/images/icon_home.png" width="20" height="20" />合同库&nbsp;>&nbsp;合同管理&nbsp;>&nbsp;
 			 <s:if test="null == honor.id">
-		     	新增获奖职工
+		     	新增合同
 			</s:if>
 			<s:else>
-			          修改获奖职工
+			          修改合同
 			</s:else>	
 		</div>
 		<s:form action="govhonor!save" namespace="/admin" method="post" id="base_frm">
@@ -490,7 +490,6 @@
 						<s:textfield name="honor.honorTitle" cssClass="input_1 input_1_w validate[maxSize[256]]"></s:textfield>&nbsp;&nbsp;<span style="color:red"></span>
 					</td>
 				</tr>
-
 
 				<tr>
 					<td align="right">

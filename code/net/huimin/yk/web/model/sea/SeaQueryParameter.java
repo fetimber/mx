@@ -1,9 +1,9 @@
 package net.huimin.yk.web.model.sea;
 
+import net.huimin.common.page.PageBean;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import net.huimin.common.page.PageBean;
 
 /**
  * 经纪人查询条件
@@ -42,6 +42,8 @@ public class SeaQueryParameter implements Serializable {
 	private PageBean page;
 	
 	private Integer unit;
+
+	private Integer createUser;
 	
 	private Integer cityId;
 	
@@ -237,6 +239,15 @@ public class SeaQueryParameter implements Serializable {
 		this.checkflag = checkflag;
 	}
 
-	
-	
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public Integer getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(Integer createUser) {
+		this.createUser = createUser;
+	}
 }

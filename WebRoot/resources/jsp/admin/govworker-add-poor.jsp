@@ -53,12 +53,12 @@
 	</head>
 	<body>
 		<div class="home">
-			<img src="resources/images/icon_home.png" width="20" height="20" />困难职工库&nbsp;>&nbsp;困难职工管理&nbsp;>&nbsp;
+			<img src="resources/images/icon_home.png" width="20" height="20" />客户库&nbsp;>&nbsp;客户管理&nbsp;>&nbsp;
 			 <s:if test="null == worker.id">
-		     	新增困难员工
+		     	      新增客户
 			</s:if>
 			<s:else>
-			          修改困难职工
+			          修改客户
 			</s:else>
 		</div>
 		<s:form action="govworker!save_poor" namespace="/admin" method="post" id="base_frm">

@@ -1,8 +1,5 @@
 package net.huimin.yk.web.actions.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.huimin.common.cnst.Const;
 import net.huimin.common.cnst.ConstConfig;
 import net.huimin.common.helper.Judge;
@@ -19,8 +16,10 @@ import net.huimin.yk.web.model.system.SysUser;
 import net.huimin.yk.web.services.common.CommonService;
 import net.huimin.yk.web.services.sea.SeaService;
 import net.huimin.yk.web.services.system.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserAction extends AbstractAction{
 
@@ -209,6 +208,7 @@ public class UserAction extends AbstractAction{
 		else if(Judge.isNotNull(this.logined(false).getRoleId())
 				&& 13 == this.logined(false).getRoleId()){
 			//query.setCheck("1");
+			query.setCreateUser(this.logined(false).getId());
 		}
 	
 		info = commonService.queryMainPageInfo(query);

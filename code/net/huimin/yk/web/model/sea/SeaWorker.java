@@ -1,8 +1,9 @@
 package net.huimin.yk.web.model.sea;
 
-import java.util.Date;
-
 import net.huimin.common.mvc.BaseModel;
+import net.huimin.yk.web.model.system.SysUser;
+
+import java.util.Date;
 
 public class SeaWorker extends BaseModel{
     /**
@@ -37,6 +38,8 @@ public class SeaWorker extends BaseModel{
     private Date createTime;
 
     private Integer createUser;
+
+    private SysUser createUserInfo;
 
     public Date getCreateTime() {
 		return createTime;
@@ -171,6 +174,20 @@ public class SeaWorker extends BaseModel{
 	public void setWorkDuty(String workDuty) {
 		this.workDuty = workDuty;
 	}
-    
-    
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
+    }
+
+    public SysUser getCreateUserInfo() {
+        return createUserInfo;
+    }
+
+    public void setCreateUserInfo(SysUser createUserInfo) {
+        this.createUserInfo = createUserInfo;
+    }
 }

@@ -1,13 +1,5 @@
 package net.huimin.yk.web.actions.admin;
 
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -17,15 +9,20 @@ import net.huimin.common.helper.DateHelper;
 import net.huimin.common.helper.Judge;
 import net.huimin.common.mvc.AbstractAction;
 import net.huimin.yk.web.model.sea.SeaHonor;
-import net.huimin.yk.web.model.sea.SeaHonorUnit;
 import net.huimin.yk.web.model.sea.SeaQueryParameter;
 import net.huimin.yk.web.model.sea.SeaUnit;
 import net.huimin.yk.web.model.sea.SeaWorker;
 import net.huimin.yk.web.model.system.SysUser;
 import net.huimin.yk.web.services.sea.SeaService;
-
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class GovhonorAction  extends AbstractAction{
 
@@ -141,6 +138,10 @@ public class GovhonorAction  extends AbstractAction{
          
 		if(Judge.isNotNull(logined.getUnitId())){
 			worker.setUnitId(logined.getUnitId());
+		}
+
+		if(this.logined(true).getRoleId() == 13){
+			worker.setCreateUser(this.logined(false).getId());
 		}
 
 		List<SeaWorker> workers = this.seaService.queryWorkerList(worker);

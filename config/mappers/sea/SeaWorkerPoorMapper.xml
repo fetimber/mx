@@ -82,6 +82,9 @@
   	    	<if test="null != ageMax">
   	    		<![CDATA[and worker.worker_age <= #{ageMax}]]>
   	    	</if>
+            <if test="null != createUser">
+                <![CDATA[and worker.create_user = #{createUser}]]>
+            </if>
   	    	<if test="null != familyCountMin">
   	    		and poor.family_people >= #{familyCountMin}
   	    	</if>
@@ -153,6 +156,9 @@
   	    	<if test="null != ageMax">
   	    		<![CDATA[and worker.worker_age <= #{ageMax}]]>
   	    	</if>
+            <if test="null != createUser">
+                <![CDATA[and worker.create_user = #{createUser}]]>
+            </if>
   	    	<if test="null != familyCountMin">
   	    		and poor.family_people >= #{familyCountMin}
   	    	</if>

@@ -47,7 +47,7 @@
 			
 			
 			function delete_worker_poor(poorid,name,id){
-			    $.dialog.confirm("你确定要删除困难职工[" + name + "]吗？<br /><br />删除后，将不再显示此困难职工，请谨慎操作。", function(){
+			    $.dialog.confirm("你确定要删除客户[" + name + "]吗？<br /><br />删除后，将不再显示此客户，请谨慎操作。", function(){
 				   $.get("admin/govworker!delete_poor",{"workerPoor.id":poorid,"worker.id":id},function(data){
 					   eval("data=" + data);
 					   if(data.result){
@@ -71,7 +71,7 @@
 			        tip += "拒绝";
 			        checkflag = "2";
 			     }
-			     tip += " 困难职工[" + name + "]吗？<br /><br />";
+			     tip += " 客户[" + name + "]吗？<br /><br />";
 			     
 			     if(flag != "pass"){
 			       tip += " 拒绝理由：<input type='text' id='remark'></input>";
@@ -110,7 +110,7 @@
 		<body>
 		<div class="home" >
 			<img src="resources/images/icon_home.png" width="20" height="20" />
-			困难职工库&nbsp;>&nbsp;困难职工审核
+			客户库&nbsp;>&nbsp;客户审核
 		</div>
 		<div class="m_w">
 <!-- 		<div class="p_tpc" onclick="showSearch();" style="cursor: pointer;">搜索条件:</div> -->
@@ -121,34 +121,40 @@
 				    <table class="tab11" width="100%"> 
 						<tr>
 							<td align="right">请输入搜索关键字:</td>
-							<td colspan="4">
-							  <s:textfield name="query.keyword" cssStyle="width:75%"  cssClass="auto_tips input_1" alt="职工姓名、身份证号、单位、地址、电话" style="margin-top:-2px;width:300px;border:1px solid #aaa;height:29px;line-height:29px;padding:1px 5px;margin-left:14px;"></s:textfield>
+							<td colspan="3">
+								<s:textfield name="query.keyword" cssClass="auto_tips input_1" alt="客户姓名、生日、身份证号码、联系方式"
+											 style="margin-top:-2px;width:300px;border:1px solid #aaa;height:29px;line-height:29px;padding:1px 5px;">
+								</s:textfield>
+
+								<span>&nbsp;</span> <span>&nbsp;</span>
+								<input  type="button" value="搜索" class="btn_search" style="margin-left:10px;margin-top:-3px;" onclick="_forward_page(1)"/>
+								<input  type="button" value="导出" class="btn_search" style="margin-left:10px;margin-top:-3px;" onclick="exportData();"/>
 							</td>
 						</tr>
 
 						<tr>
-							<td align="right">发放检索开始时间:</td>
-							<td><input name="query.honorTimeStart" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeStart}" format="yyyy-MM-dd" />" /></td>
-							<td align="right">发放检索结束时间:</td>
-							<td><input name="query.honorTimeEnd" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeEnd}" format="yyyy-MM-dd" />" /></td>
+							<td align="right">&nbsp;</td>
+							<td colspan="3">
+								<span>&nbsp;</span><span>&nbsp;</span>
+								<s:select cssStyle="margin-top:-3px;height:29px;line-height:29px;" name="query.checkflag" list="#{'':'审核状态','0':'未审核',1:'审核通过',2:'审核拒绝'}" ></s:select>
+							</td>
 						</tr>
+
+						<!--
 						<tr>
 						<td> &nbsp; </td>
 						<td  colspan="3">
 						       <s:select name="query.level" list="#{'':'困难标准','家庭人均收入低于当地居民最低生活保障线的困难职工家庭':'家庭人均收入低于当地居民最低生活保障线的困难职工家庭','家庭人均收入略高于低保标准但因一定原因导致生活困难的困难职工家庭':'家庭人均收入略高于低保标准但因一定原因导致生活困难的困难职工家庭','因意外事件、重大疾病、自然灾害等造成生活困难的职工家庭':'因意外事件、重大疾病、自然灾害等造成生活困难的职工家庭'}"></s:select>
 						  	   <span>&nbsp;</span> <span>&nbsp;</span> 
 						  	   
-				               <s:select name="query.checkflag" list="#{'':'审核状态','0':'未审核',1:'审核通过',2:'审核拒绝'}" ></s:select>
-				               
+
 				               <span>&nbsp;</span> <span>&nbsp;</span> 
 				               <s:select  name="query.reason"  list="#{'':'致困原因','因病':'因病','因灾':'因灾','其他':'其他'}"></s:select>
 				 
 				            <span>&nbsp;</span> <span>&nbsp;</span>  <span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span>
 				            
-						   <input  type="button" value="搜索" class="btn_search" style="margin-left:10px;margin-top:-3px;" onclick="_forward_page(1)"/>
-					    <input  type="button" value="导出" class="btn_search" style="margin-left:10px;margin-top:-3px;" onclick="exportData();"/>
-	                  </td>
-						</tr>
+						  </td>
+						</tr>-->
 					</table>
 				</div>
 			</s:form>
@@ -159,31 +165,19 @@
 						序号
 					</th>
 					<th width="10%">
-						姓名
+						客户姓名
 					</th>
 					<th width="10%">
-						单位
+						生日
 					</th>
-					<th width="7%">
-						性别
-					</th>
-					<th width="7%">
-						年龄
+					<th width="5%">
+						身份证号
 					</th>
 					<th width="10%">
-						电话
+						联系方式
 					</th>
 					<th width="10%">
 						审核状态
-					</th>
-					<th width="10%">
-						家庭人口
-					</th>
-					<th width="10%">
-						家庭收入(元)
-					</th>
-					<th width="10%">
-						贫困等级
 					</th>
 					<th width="15%">
 						操作
@@ -192,44 +186,33 @@
 					<s:if test="null != page.beans && page.beans.size()>0">
 						<s:iterator value="page.beans" var="item" status="status">
 					    <tr <s:if test="#status.odd != true">class="inter"</s:if>>
-						<td align="center" valign="top">
-							<s:property value="%{page.offset * (page.current - 1) + #status.count}" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.workerInfo.workerName" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.unitInfo.unitName" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.workerInfo.workerSex" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.workerInfo.workerAge" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.workerInfo.workerPhone" />
-						</td>
-						<td align="center" valign="top">
-						 <s:if test="#item.checkFlag == null || #item.checkFlag == ''">未提交</s:if>
-						    <s:elseif test="#item.checkFlag == 0">未审核</s:elseif>
-							<s:elseif test="#item.checkFlag == 1">审核通过</s:elseif>
-							<s:elseif test="#item.checkFlag == 2">审核拒绝</s:elseif>		
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.familyPeople" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.familyIncome" />
-						</td>
-					    <td align="center" valign="top">
-							<s:property value="#item.poorLevel" />
-						</td>
+							<td align="center" valign="top">
+								<s:property value="%{page.offset * (page.current - 1) + #status.count}" />
+							</td>
+							<td align="center" valign="top">
+								<s:property value="#item.workerInfo.workerName" />
+							</td>
+							<td align="center" valign="top">
+								<s:property value="#item.workerInfo.workerAge" />
+							</td>
+							<td align="center" valign="top">
+								<s:property value="#item.workerInfo.workerIdnumber" />
+							</td>
+							<td align="center" valign="top">
+								<s:property value="#item.workerInfo.workerPhone" />
+							</td>
+
+							<td align="center" valign="top">
+								<s:if test="#item.checkFlag == null || #item.checkFlag == ''">未提交</s:if>
+								<s:elseif test="#item.checkFlag == 0">未审核</s:elseif>
+								<s:elseif test="#item.checkFlag == 1">审核通过</s:elseif>
+								<s:elseif test="#item.checkFlag == 2">审核拒绝</s:elseif>
+							</td>
 						<td align="center" valign="top">	  
-		            <a href="admin/record!view?query.workPoorId=<s:property value="#item.id" />">发放</a>
+		              <!--<a href="admin/record!view?query.workPoorId=<s:property value="#item.id" />">发放</a>  |-->
 		             
-		             | <a href="admin/govworker!detail_poor?workerPoor.secId=<s:property value="#item.secId" />&worker.secId=<s:property value="#item.workerInfo.secId" />">详情</a>
-		             <br/> <a href="javascript:checkWorkerPoor(<s:property value="#item.id" />,'<s:property value="#item.workerInfo.workerName" />','pass')">通过</a>	
+		             <a href="admin/govworker!detail_poor?workerPoor.secId=<s:property value="#item.secId" />&worker.secId=<s:property value="#item.workerInfo.secId" />">详情</a>
+							| <a href="javascript:checkWorkerPoor(<s:property value="#item.id" />,'<s:property value="#item.workerInfo.workerName" />','pass')">通过</a>
 		             | <a href="javascript:checkWorkerPoor(<s:property value="#item.id" />,'<s:property value="#item.workerInfo.workerName" />','fail')">拒绝</a>						
 						</td>
 					</tr>

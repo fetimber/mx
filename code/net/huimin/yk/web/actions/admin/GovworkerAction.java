@@ -1,13 +1,5 @@
 package net.huimin.yk.web.actions.admin;
 
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -16,7 +8,6 @@ import net.huimin.common.cnst.Const;
 import net.huimin.common.helper.DateHelper;
 import net.huimin.common.helper.Judge;
 import net.huimin.common.mvc.AbstractAction;
-import net.huimin.yk.web.model.sea.SeaHonor;
 import net.huimin.yk.web.model.sea.SeaQueryParameter;
 import net.huimin.yk.web.model.sea.SeaUnit;
 import net.huimin.yk.web.model.sea.SeaWorker;
@@ -24,9 +15,15 @@ import net.huimin.yk.web.model.sea.SeaWorkerPoor;
 import net.huimin.yk.web.model.system.SysUser;
 import net.huimin.yk.web.services.common.AreaService;
 import net.huimin.yk.web.services.sea.SeaService;
-
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class GovworkerAction  extends AbstractAction{
 
@@ -73,6 +70,10 @@ public class GovworkerAction  extends AbstractAction{
 		}
 		if(Judge.isNotNull(this.query.getKeyword())){
 			this.query.setKeyword(this.query.getKeyword().trim());	
+		}
+
+		if(this.logined(true).getRoleId() == 13){
+			this.query.setCreateUser(this.logined(false).getId());
 		}
 		
 		this.seaService.queryWorkersPoorForPage(this.getPage(), this.query);	
@@ -203,6 +204,7 @@ public class GovworkerAction  extends AbstractAction{
 		//非困难职工
 		this.worker.setIsHard("0");
 		this.worker.setCreateTime(new Date());
+
 		if(Judge.isNull(this.worker.getUnitId())){
 			SysUser logined  = (SysUser)this.getSession().get(Const.USERINFO_IN_SESSION);
 			this.worker.setUnitId(logined.getUnitId());
@@ -220,9 +222,11 @@ public class GovworkerAction  extends AbstractAction{
 	public String save_poor(){
 		//困难职工	
 		this.worker.setIsHard("1");
+		this.worker.setCreateUser(this.logined(false).getId());
+
 		this.workerPoor.setCreateTime(new Date());
 		this.workerPoor.setIsDelete(0);
-		
+
 		if(Judge.isNull(this.worker.getUnitId())){
 			if(Judge.isNotNull(this.logined(true).getUnitId())){
 				this.worker.setUnitId(this.logined(true).getUnitId());
@@ -312,6 +316,8 @@ public class GovworkerAction  extends AbstractAction{
 			this.query.setCheck("-1");		
 		}else if(this.checkFlag.equals("2")){
 			this.query.setCheck("1");				
+		}if(this.logined(true).getRoleId() == 13){
+			this.query.setCreateUser(this.logined(false).getId());
 		}
 
 		if(Judge.isNotNull(this.logined(true).getCityId())){
@@ -373,8 +379,24 @@ public class GovworkerAction  extends AbstractAction{
 	            WritableWorkbook workbook = Workbook.createWorkbook(os);
 	            if (workbook != null)
 	            {
-	                WritableSheet sheet = workbook.createSheet("困难职工数据", 0);
+	                WritableSheet sheet = workbook.createSheet("客户数据", 0);
 	                // 设置标题 sheet.addCell(new jxl.write.Label(列(从0开始), 行(从0开始), 内容.));
+					sheet.addCell(new Label(0, 0, "客户姓名 "));
+					sheet.addCell(new Label(1, 0, "生日"));
+					sheet.addCell(new Label(2, 0, "身份证号"));
+					sheet.addCell(new Label(3, 0, "联系方式"));
+					sheet.addCell(new Label(4, 0, "地址"));
+					sheet.addCell(new Label(5, 0, "开户公司"));
+					sheet.addCell(new Label(6, 0, "客户经理 "));
+
+					sheet.setColumnView(0, 30);
+					sheet.setColumnView(1, 30);
+					sheet.setColumnView(2, 30);
+					sheet.setColumnView(3, 20);
+					sheet.setColumnView(4, 20);
+					sheet.setColumnView(5, 30);
+					sheet.setColumnView(6, 30);
+					/*
 	                sheet.addCell(new Label(0, 0, "职工姓名 "));
 	                sheet.addCell(new Label(1, 0, "单位名称"));
 	                sheet.addCell(new Label(2, 0, "性别"));
@@ -409,7 +431,8 @@ public class GovworkerAction  extends AbstractAction{
 	                sheet.setColumnView(13, 30);
 	                sheet.setColumnView(14, 30);
 	                sheet.setColumnView(15, 30);
-	                
+	                */
+
 	                this.getPage().setOffset(50000);
 	                wokerDataList();
 	                
@@ -419,8 +442,54 @@ public class GovworkerAction  extends AbstractAction{
 	                  
 	                for (int i = 0; i < workers.size(); i++) {
 	                    //行编号   
-	                	SeaWorkerPoor poor = workers.get(i);   
-	                    
+	                	SeaWorkerPoor poor = workers.get(i);
+
+	                	/*
+						sheet.addCell(new Label(0, 0, "客户姓名 "));
+						sheet.addCell(new Label(1, 0, "生日"));
+						sheet.addCell(new Label(2, 0, "身份证号"));
+						sheet.addCell(new Label(3, 0, "联系方式"));
+						sheet.addCell(new Label(4, 0, "开户公司"));
+						sheet.addCell(new Label(5, 0, "客户经理 "));
+                         */
+
+	                	String workName = null != poor.getWorkerInfo() &&
+								null != poor.getWorkerInfo().getWorkerName() ?
+								poor.getWorkerInfo().getWorkerName() : "";
+
+	                	String unitName = null!= poor.getUnitInfo() &&
+								   null != poor.getUnitInfo().getUnitName() ?
+								poor.getUnitInfo().getUnitName(): "";
+
+	                	String birth = null != poor.getWorkerInfo() &&
+								null != poor.getWorkerInfo().getWorkerAge() ?
+								poor.getWorkerInfo().getWorkerAge() : "";
+
+	                	String idNumber = null != poor.getWorkerInfo() &&
+								null != poor.getWorkerInfo().getWorkerIdnumber() ?
+								poor.getWorkerInfo().getWorkerIdnumber() : "";
+
+						String address = null != poor.getWorkerInfo() &&
+								null != poor.getWorkerInfo().getWorkerAddress()?
+								poor.getWorkerInfo().getWorkerAddress() : "";
+
+                        String phone = null != poor.getWorkerInfo() &&
+								null != poor.getWorkerInfo().getWorkerPhone() ?
+								poor.getWorkerInfo().getWorkerPhone() : "";
+
+                        String createUser = null != poor.getWorkerInfo() &&
+								null != poor.getWorkerInfo().getCreateUserInfo() &&
+								null != poor.getWorkerInfo().getCreateUserInfo().getLoginName() ?
+								poor.getWorkerInfo().getCreateUserInfo().getLoginName()  : "";
+
+						sheet.addCell(new Label(0, i+1, workName));
+						sheet.addCell(new Label(1, i+1, birth));
+						sheet.addCell(new Label(2, i+1, idNumber));
+						sheet.addCell(new Label(3, i+1, phone));
+						sheet.addCell(new Label(4, i+1, address));
+						sheet.addCell(new Label(5, i+1, unitName));
+						sheet.addCell(new Label(6, i+1, createUser));
+	                	/*
 	                    sheet.addCell(new Label(0, i+1, poor.getWorkerInfo().getWorkerName()));
 	                    sheet.addCell(new Label(1, i+1, poor.getUnitInfo().getUnitName()));
 	  	                sheet.addCell(new Label(2, i+1, poor.getWorkerInfo().getWorkerSex()));
@@ -437,8 +506,8 @@ public class GovworkerAction  extends AbstractAction{
 		                sheet.addCell(new Label(13, i+1, poor.getPoorLevel()));
 		                sheet.addCell(new Label(14, i+1,  poor.getPoorReason()));
 		                sheet.addCell(new Label(15, i+1, poor.getChangeMemo()));
+                        */
 
-	                	
 	               }   
 	                // 从内存中写入文件中
 	                workbook.write();

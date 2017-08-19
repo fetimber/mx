@@ -90,46 +90,35 @@
 	</head>
 	<body>
 		<div class="home">
-			<img src="resources/images/icon_home.png" width="20" height="20" />获奖职工库&nbsp;>&nbsp;获奖职工统计
+			<img src="resources/images/icon_home.png" width="20" height="20" />合同库&nbsp;>&nbsp;合同统计
 		</div>
 		<div class="m_w">
 			<!--检索部分-->
 			<s:form action="govhonor!view2" namespace="/admin" id="base_frm">
 			<s:hidden name="page.current" id="page_current"></s:hidden>
-			<div class="tab_check" id="search" > 
-			   		<table class="tab11" width="100%"> 
-						<tr>
-							<td align="right">请输入搜索关键字:</td>
-							<td colspan="4">
-							  <s:textfield name="query.keyword" cssStyle="width:75%"  cssClass="auto_tips input_1" alt="职工姓名、身份证号、单位、地址、电话" style="margin-top:-2px;width:300px;border:1px solid #aaa;height:29px;line-height:29px;padding:1px 5px;margin-left:14px;"></s:textfield>
-							</td>
-						</tr>
+			<div class="tab_check" id="search" >
+				<table class="tab11" width="100%">
+					<tr>
+						<td align="right">请输入搜索关键字:</td>
+						<td colspan="4">
+							<s:textfield name="query.keyword" cssStyle="width:75%"  cssClass="auto_tips input_1" alt="客户姓名、生日、身份证号码、联系方式" style="margin-top:-2px;width:300px;border:1px solid #aaa;height:29px;line-height:29px;padding:1px 5px;margin-left:0px;"></s:textfield>
 
-						<tr>
-							<td align="right">获奖检索开始时间:</td>
-							<td><input name="query.honorTimeStart" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeStart}" format="yyyy-MM-dd" />" /></td>
-							<td align="right"> 获奖检索结束时间:</td>
-							<td><input name="query.honorTimeEnd" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeEnd}" format="yyyy-MM-dd" />" /></td>
-						</tr>
-						<tr>
-						<td> &nbsp; </td>
-						<td  colspan="3">
-						    <s:select name="query.level" list="#{'':'荣誉级别','全国':'全国','省级':'省级','市级':'市级'}"></s:select> <span>&nbsp;</span> <span>&nbsp;</span> 
-				            <s:select name="query.honorType"  list="#{'':'荣誉类别','劳模（先进工作者）':'劳模（先进工作者）','巾帼标兵':'巾帼标兵','五一劳动奖章':'五一劳动奖章','文明职工':'文明职工','“安康杯”竞赛先进个人':'“安康杯”竞赛先进个人','优秀工会工作者':'优秀工会工作者','其他':'其他'}"></s:select> <span>&nbsp;</span> <span>&nbsp;</span>
-				            <!-- 
-				            <s:select name="query.check" list="#{'':'审核状态','0':'未审核',1:'审核通过',2:'审核拒绝'}" ></s:select> <span>&nbsp;</span> <span>&nbsp;</span>
-				             -->
-				            <span>&nbsp;</span> <span>&nbsp;</span> <span>&nbsp;</span> <span>&nbsp;</span> <span>&nbsp;</span>
-						   	<input  type="button" value="搜索" class="btn_search" style="margin-left:10px;margin-top:-3px;align:left" onclick="_forward_page(1)"/>
-					        <input  type="button" value="导出" class="btn_search" style="margin-left:10px;margin-top:-3px;align:left" onclick="exportData();"/>
-					        <input  type="button" value="导出汇总表" class="btn_search importexcel" style="margin-left:10px;margin-top:-3px;" onclick="exportTotalData();"/>
-				       
-					        
-				        </td>
-						</tr>
-					</table>
-			   						   
-					</div>
+							<input  type="button" value="搜索" class="btn_search" style="margin-left:10px;margin-top:-3px;align:left" onclick="_forward_page(1)"/>
+							<input  type="button" value="导出" class="btn_search" style="margin-left:10px;margin-top:-3px;align:left" onclick="exportData();"/>
+							<input  type="button" value="导出汇总表" class="btn_search importexcel" style="margin-left:10px;margin-top:-3px;" onclick="exportTotalData();"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td align="right">合同开始时间:</td>
+						<td><input name="query.honorTimeStart" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeStart}" format="yyyy-MM-dd" />" /></td>
+						<td align="right"> 合同结束时间:</td>
+						<td><input name="query.honorTimeEnd" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeEnd}" format="yyyy-MM-dd" />" /></td>
+						<td>  <span>&nbsp;</span> <span>&nbsp;</span><s:select name="query.checkflag" list="#{'':'审核状态','0':'未审核',1:'审核通过',2:'审核拒绝'}" ></s:select> <span>&nbsp;</span> <span>&nbsp;</span>
+						</td>
+					</tr>
+				</table>
+			 </div>
 			</s:form>
 			
 <!-- 				<input type="button" value="搜索" class="btn_search" style="margin-left:10px;margin-top:-3px;" onclick="_forward_page(1)" /> -->
@@ -141,31 +130,34 @@
 					<th width="5%">
 						序号
 					</th>
-					<th width="10%">
-						荣誉种类
-					</th>
-					<th width="13%">
-						荣誉级别
+					<th width="8%">
+						合同种类
 					</th>
 					<th width="10%">
-						标题文号
+						合同编号
 					</th>
 					<th width="10%">
-						姓名
+						合同额
 					</th>
 					<th width="10%">
-						单位
+						预期收益
 					</th>
-					<th width="5%">
-						性别
+					<th width="8%">
+						开始日期
 					</th>
-					<th width="5%">
-						年龄
+					<th width="8%">
+						结束日期
 					</th>
 					<th width="10%">
-						电话
+						客户姓名
 					</th>
-					<th width="15%">
+					<th width="8%">
+						联系方式
+					</th>
+					<th width="8%">
+						审核状态
+					</th>
+					<th width="20%">
 						操作
 					</th>
 				</tr>
@@ -182,22 +174,28 @@
 							<s:property value="#item.honorLevel" />
 						</td>
 						<td align="center" valign="top">
-							<s:property value="#item.honorTitle" />
+							<s:property value="#item.honorDesc" /> 万元
+						</td>
+						<td align="center" valign="top">
+							<s:property value="#item.unitHonorDesc" /> 万元
+						</td>
+						<td align="center" valign="top">
+							<s:property value="#item.honorTime" />
+						</td>
+						<td align="center" valign="top">
+							<s:property value="#item.joinTime" />
 						</td>
 						<td align="center" valign="top">
 							<s:property value="#item.workerInfo.workerName" />
 						</td>
 						<td align="center" valign="top">
-							<s:property value="#item.unitInfo.unitName" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.workerInfo.workerSex" />
-						</td>
-						<td align="center" valign="top">
-							<s:property value="#item.workerInfo.workerAge" />
-						</td>
-						<td align="center" valign="top">
 							<s:property value="#item.workerInfo.workerPhone" />
+						</td>
+						<td align="center" valign="top">
+							<s:if test="#item.checkFlag == null || #item.checkFlag == ''">未提交</s:if>
+							<s:elseif test="#item.checkFlag == 0">未审核</s:elseif>
+							<s:elseif test="#item.checkFlag == 1">审核通过</s:elseif>
+							<s:elseif test="#item.checkFlag == 2">审核拒绝</s:elseif>
 						</td>
 						<td align="center" valign="top">
                               <a href="admin/govhonor!detail?honor.secId=<s:property value="#item.secId" />">详情</a>

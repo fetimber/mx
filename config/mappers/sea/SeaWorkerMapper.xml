@@ -15,6 +15,7 @@
     <result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
     <result column="work_duty" property="workDuty" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="INTEGER" />
   </resultMap>
   
    <resultMap id="WorkerMap" type="net.huimin.yk.web.model.sea.SeaWorker" >
@@ -31,14 +32,17 @@
     <result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
     <result column="work_duty" property="workDuty" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="create_user" property="createUser" jdbcType="INTEGER" />
     
      <association property="unitInfo" column="unit_id" select="net.huimin.yk.web.dao.sea.SeaUnitMapper.selectByPrimaryKey" />
- 
+     <association property="createUserInfo" column="create_user" select="net.huimin.yk.web.dao.system.SysUserMapper.selectByPrimaryKey" />
+
+
   </resultMap>
   
   <sql id="Base_Column_List" >
     id, worker_name, worker_sex, worker_age, worker_idnumber, worker_address, worker_phone, 
-    honor_remark, unit_id, is_hard ,create_time,bank_card,work_duty
+    honor_remark, unit_id, is_hard ,create_time,bank_card,work_duty,create_user
   </sql>
   <select id="selectByPrimaryKey" resultMap="WorkerMap" parameterType="java.lang.Integer" >
     select 'true' as QUERYID,
@@ -81,7 +85,10 @@
        <where>
 	      <if test="null != unitId">
 	           AND unit_id  = #{unitId,jdbcType=INTEGER}
-	      </if>     
+	      </if>
+         <if test="null != createUser">
+              AND create_user  = #{createUser,jdbcType=INTEGER}
+         </if>
   	   </where>
       
     </select>
@@ -125,11 +132,11 @@
     insert into t_sea_worker (id, worker_name, worker_sex, 
       worker_age, worker_idnumber, worker_address, 
       worker_phone, honor_remark, unit_id, create_time
-      is_hard,bank_card,work_duty
+      is_hard,bank_card,work_duty,create_user
     values (#{id,jdbcType=INTEGER}, #{workerName,jdbcType=VARCHAR}, #{workerSex,jdbcType=VARCHAR}, 
       #{workerAge,jdbcType=VARCHAR}, #{workerIdnumber,jdbcType=VARCHAR}, #{workerAddress,jdbcType=VARCHAR}, 
       #{workerPhone,jdbcType=VARCHAR}, #{honorRemark,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
-      #{isHard,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP}, #{bankCard,jdbcType=VARCHAR},#{workDuty,jdbcType=VARCHAR})
+      #{isHard,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP}, #{bankCard,jdbcType=VARCHAR},#{workDuty,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER})
       <selectKey keyProperty="id" resultType="int">
       	select last_insert_id() as id
       </selectKey>
@@ -176,6 +183,9 @@
        <if test="workDuty != null" >
         work_duty,
       </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -216,6 +226,9 @@
       </if>
       <if test="workDuty != null" >
          #{workDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=INTEGER},
       </if>
     </trim>
      <selectKey keyProperty="id" resultType="int">

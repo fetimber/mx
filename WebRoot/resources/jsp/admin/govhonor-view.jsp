@@ -119,7 +119,7 @@
 			        tip += "拒绝";
 			        checkflag = "2";
 			     }
-			     tip += " 获奖荣誉 [" + name + "]吗？<br /><br />";
+			     tip += " 合同 [" + name + "]吗？<br /><br />";
 			     
 			     
 			     $.dialog.confirm(tip, function(){
@@ -150,15 +150,13 @@
 			       <table class="tab11" width="100%"> 
 						<tr>
 							<td align="right">请输入搜索关键字:</td>
-							<td colspan="3">
+							<td colspan="4">
 							  <s:textfield name="query.keyword" cssStyle="width:75%"  cssClass="auto_tips input_1" alt="客户姓名、生日、身份证号码、联系方式" style="margin-top:-2px;width:300px;border:1px solid #aaa;height:29px;line-height:29px;padding:1px 5px;margin-left:0px;"></s:textfield>
 
 								<input  type="button" value="搜索" class="btn_search" style="margin-left:10px;margin-top:-3px;align:left" onclick="_forward_page(1)"/>
 								<input  type="button" value="新增" class="btn_search" style="margin-left:10px;margin-top:-3px;align:left" onclick="location.href='admin/govhonor!add'"/>
 								<input  type="button" value="导出" class="btn_search" style="margin-left:10px;margin-top:-3px;align:left" onclick="exportData();"/>
-
 							</td>
-
 						</tr>
 
 						<tr>
@@ -166,6 +164,8 @@
 							<td><input name="query.honorTimeStart" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeStart}" format="yyyy-MM-dd" />" /></td>
 							<td align="right"> 合同结束时间:</td>
 							<td><input name="query.honorTimeEnd" type="text" class="input_1 timer" value="<s:date name="%{query.lastProcessTimeEnd}" format="yyyy-MM-dd" />" /></td>
+							<td>  <span>&nbsp;</span> <span>&nbsp;</span><s:select name="query.checkflag" list="#{'':'审核状态','0':'未审核',1:'审核通过',2:'审核拒绝'}" ></s:select> <span>&nbsp;</span> <span>&nbsp;</span>
+							</td>
 						</tr>
 
 
@@ -180,7 +180,7 @@
 					<th width="5%">
 						序号
 					</th>
-					<th width="10%">
+					<th width="8%">
 						合同种类
 					</th>
 					<th width="10%">
@@ -192,22 +192,22 @@
 					<th width="10%">
 						预期收益
 					</th>
-					<th width="10%">
+					<th width="8%">
 						开始日期
 					</th>
-					<th width="10%">
+					<th width="8%">
 						结束日期
 					</th>
 					<th width="10%">
 						客户姓名
 					</th>
-					<th width="10%">
+					<th width="8%">
 						联系方式
 					</th>
-					<th width="10%">
+					<th width="8%">
 						审核状态
 					</th>
-					<th width="15%">
+					<th width="20%">
 						操作
 					</th>
 				</tr>
@@ -218,10 +218,10 @@
 							<s:property value="%{#request.page.start + #st.count}" />
 						</td>
 						<td align="center" valign="top">
-							<s:property value="#item.honorLevel" />
+							<s:property value="#item.honorType" />
 						</td>
 						<td align="center" valign="top">
-							<s:property value="#item.honorType" />
+							<s:property value="#item.honorLevel" />
 						</td>
 						<td align="center" valign="top">
 							<s:property value="#item.honorDesc" /> 万元

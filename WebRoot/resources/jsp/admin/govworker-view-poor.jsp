@@ -98,7 +98,7 @@
 			
 			
 			function delete_worker_poor(poorid,name,id){
-			    $.dialog.confirm("你确定要删除困难职工[" + name + "]吗？<br /><br />删除后，将不再显示此困难职工，请谨慎操作。", function(){
+			    $.dialog.confirm("你确定要删除客户[" + name + "]吗？<br /><br />删除后，将不再显示此客户，请谨慎操作。", function(){
 				   $.get("admin/govworker!delete_poor",{"workerPoor.id":poorid,"worker.id":id},function(data){
 					   eval("data=" + data);
 					   if(data.result){
@@ -122,7 +122,7 @@
 			        tip += "拒绝";
 			        checkflag = "2";
 			     }
-			     tip += " 困难职工[" + name + "]吗？<br /><br />";
+			     tip += " 客户[" + name + "]吗？<br /><br />";
 			     
 			     
 			     $.dialog.confirm(tip, function(){
@@ -164,6 +164,13 @@
 								<input  type="button" value="导出" class="btn_search" style="margin-left:10px;margin-top:-3px;" onclick="exportData();"/>
 							</td>
 						</tr>
+
+					<tr>
+						<td align="right">&nbsp;</td>
+						<td colspan="3">
+							<s:select cssStyle="margin-top:-3px;height:29px;line-height:29px;" name="query.checkflag" list="#{'':'审核状态','0':'未审核',1:'审核通过',2:'审核拒绝'}" ></s:select>
+						</td>
+					</tr>
                         <!--
 						<tr>
 							<td align="right">发放检索开始时间:</td>
@@ -182,14 +189,9 @@
 				               <s:select  name="query.reason"  list="#{'':'致困原因','因病':'因病','因灾':'因灾','其他':'其他'}"></s:select>
 				 		</td>	
 						-->
-						<td  colspan="2">
-
 					    <!--<input  type="button" value="导入EXCEL" class="btn_search importexcel" style="margin-left:10px;margin-top:-3px;" />
 
 				        <input  type="button" value="模板下载" class="btn_search" style="margin-left:10px;margin-top:-3px;" onclick="location.href='<%=path%>/template/workerdata.xls'"/>-->
-					 
-							  </td>
-						</tr>
 					</table>
 				   </div>
 
@@ -212,6 +214,9 @@
 					<th width="10%">
 						联系方式
 					</th>
+					<th width="10%">
+						审核状态
+					</th>
 					<th width="15%">
 						操作
 					</th>
@@ -233,6 +238,13 @@
 						</td>
 						<td align="center" valign="top">
 							<s:property value="#item.workerInfo.workerPhone" />
+						</td>
+
+						<td align="center" valign="top">
+							<s:if test="#item.checkFlag == null || #item.checkFlag == ''">未提交</s:if>
+							<s:elseif test="#item.checkFlag == 0">未审核</s:elseif>
+							<s:elseif test="#item.checkFlag == 1">审核通过</s:elseif>
+							<s:elseif test="#item.checkFlag == 2">审核拒绝</s:elseif>
 						</td>
 
 						<td align="center" valign="top">

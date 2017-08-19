@@ -74,7 +74,10 @@
   	    	</if>
   	    	<if test="null != unit and unit != ''">
   	    		<![CDATA[and c.id = #{unit}]]>
-  	    	</if> 
+  	    	</if>
+            <if test="null != createUser and createUser != ''">
+               <![CDATA[and b.create_user = #{createUser}]]>
+            </if>
   	    	<if test="null != check and check != ''">
   	    		<if test="check == '-1'">
   	    		   <![CDATA[and a.check_flag in ('1','2','0')]]>
@@ -93,8 +96,11 @@
   	    	</if>
   	    	<if test="null != unit and unit != ''">
   	    		<![CDATA[and c.id = #{unit}]]>
-  	    	</if> 
-          ) as todayreg,   
+  	    	</if>
+           <if test="null != createUser and createUser != ''">
+               <![CDATA[and b.create_user = #{createUser}]]>
+           </if>
+       ) as todayreg,
          (  select count(*) from t_sea_honor  ho
             LEFT JOIN  T_SEA_WORKER  worker on ho.honor_worker = worker.id
             LEFT JOIN  t_sea_govunit  unit on worker.unit_id = unit.id  
@@ -104,7 +110,10 @@
   	    	</if>
   	    	<if test="null != unit and unit != ''">
   	    		<![CDATA[and unit.id = #{unit}]]>
-  	    	</if> 
+  	    	</if>
+            <if test="null != createUser and createUser != ''">
+              <![CDATA[and worker.create_user = #{createUser}]]>
+            </if>
   	    	<if test="null != check and check != ''">
   	    	    <if test="check == '-1'">
   	    		   <![CDATA[and ho.check_flag in ('1','2','0')]]>
@@ -114,7 +123,7 @@
   	    		</if>
   	    		<if test="check != '-1' and check != '-2'">
   	    		   <![CDATA[and ho.check_flag = #{check}]]>
-  	    		</if>	
+  	    		</if>
   	    	</if>  		
          ) as baltotal, 
         (select count(*) from t_sea_honor  ho
@@ -127,7 +136,10 @@
   	    	</if>
   	    	<if test="null != unit and unit != ''">
   	    		<![CDATA[and unit.id = #{unit}]]>
-  	    	</if>	
+  	    	</if>
+            <if test="null != createUser and createUser != ''">
+                <![CDATA[and worker.create_user = #{createUser}]]>
+            </if>
   	        <if test="null != check and check != ''">
   	    	    <if test="check == '-1'">
   	    		   <![CDATA[and ho.check_flag in ('1','2','0')]]>
@@ -137,7 +149,7 @@
   	    		</if>
   	    		<if test="check != '-1' and check != '-2'">
   	    		   <![CDATA[and ho.check_flag = #{check}]]>
-  	    		</if>	
+  	    		</if>
   	    	</if>   	
          ) as todaybal 
        FROM dual

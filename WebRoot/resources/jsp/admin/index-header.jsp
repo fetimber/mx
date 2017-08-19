@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                      &nbsp;&nbsp;&nbsp;&nbsp;市级单位：<s:property value="#session.userinfo_in_session.cityInfo.cityName"/> 
 	                     </s:if>
 	                     <s:if test="#session.userinfo_in_session.roleId == 13">
-	                    &nbsp;&nbsp;&nbsp;&nbsp; 单位名称：<s:property value="#session.userinfo_in_session.unitInfo.unitName"/>
+	                    &nbsp;&nbsp;&nbsp;&nbsp; 公司名称：<s:property value="#session.userinfo_in_session.unitInfo.unitName"/>
 	                    &nbsp;&nbsp;&nbsp;&nbsp; 市级单位：<s:property value="#session.userinfo_in_session.cityInfo.cityName"/> 
 	                     </s:if>
 	                     &nbsp;&nbsp;&nbsp;&nbsp;登录名：   <s:property value="#session.userinfo_in_session.loginName"/> 

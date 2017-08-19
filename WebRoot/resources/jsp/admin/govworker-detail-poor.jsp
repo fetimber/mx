@@ -36,7 +36,7 @@
 	</head>
 	<body>
 		<div class="home">
-			<img src="resources/images/icon_home.png" width="20" height="20" />困难职工库&nbsp;>&nbsp;困难职工管理&nbsp;>&nbsp;困难员工详情
+			<img src="resources/images/icon_home.png" width="20" height="20" />客户库&nbsp;>&nbsp;客户管理&nbsp;>&nbsp;客户详情
 		</div>
 		<s:form action="govworker!save_poor" namespace="/admin" method="post" id="base_frm">
 		    <s:hidden name="worker.id" />
@@ -80,7 +80,7 @@
 
 			     <tr>
 					<td align="right">
-						年龄
+						生日
 					</td>
 					<td>
 					   <s:textfield name="worker.workerAge" cssClass="input_1 input_1_w validate[required,custom[number],min[16],max[100]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
@@ -92,7 +92,7 @@
 						身份证号
 					</td>
 					<td>
-					   <s:textfield name="worker.workerIdnumber2" cssClass="input_1 input_1_w validate[required,minSize[10],maxSize[18],ajax[_ajax_id_card]]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
+					   <s:textfield name="worker.workerIdnumber" cssClass="input_1 input_1_w"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
 					</td>
 				</tr>
 				<tr>
