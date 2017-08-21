@@ -162,7 +162,7 @@
 	</head>
 	<body>
 		<div class="home">
-			<img src="resources/images/icon_home.png" width="20" height="20" />获奖职工库&nbsp;>&nbsp;获奖职工管理&nbsp;>&nbsp;获奖职工详情
+			<img src="resources/images/icon_home.png" width="20" height="20" />合同库&nbsp;>&nbsp;合同管理&nbsp;>&nbsp;合同详情
 		</div>
 		<s:form action="govhonor!save" namespace="/admin" method="post" id="base_frm">
 		    <s:hidden name="worker.id" />
@@ -173,28 +173,19 @@
 			<table id="info" width="95%" border="0" cellspacing="0" cellpadding="0" class="tab_1" style="margin:40px 0 0 40px;float:left;">
 				<tr>
 					<td width="16%" align="right">
-						获奖职工姓名
+						客户姓名
 					</td>
 					<td width="84%">
 						<s:property value="honor.workerInfo.workerName"/> 
 					</td>
 				</tr>
-						
-				<tr >
+
+				<tr>
 					<td align="right">
-						性别
-					</td>
-                    <td>
-					    <label for="number"></label>
-						<s:select  id="workersex" name="worker.workerSex"  list="#{'男':'男','女':'女'}"></s:select>
-					  </td>
-				      </tr>
-			     <tr> 
-					<td align="right">
-						年龄
+						生日
 					</td>
 					<td>
-					   <s:textfield id="workerage" name="worker.workerAge" cssClass="input_1 input_1_w validate[required,custom[number],min[16],max[100]]"></s:textfield>&nbsp;&nbsp;
+						<s:textfield id="workerage" name="worker.workerAge" cssClass="input_1 input_1_w validate[required,minSize[1],maxSize[16]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
 					</td>
 				</tr>
 				
@@ -203,87 +194,122 @@
 						身份证号
 					</td>
 					<td>
-					      <s:textfield id="workeridnumber" name="worker.workerIdnumber2" cssClass="input_1 input_1_w validate[required,minSize[10],maxSize[18]]"></s:textfield>&nbsp;&nbsp;	  
-					</td>
-	
-				</tr>
-				<tr>
-					<td align="right">
-						银行卡号
-					</td>
-					<td>
-					   <s:textfield  id="workerbankcard" name="worker.bankCard2" cssClass="input_1 input_1_w validate[required,minSize[10],maxSize[20]]"></s:textfield>&nbsp;&nbsp;
+					      <s:textfield id="workeridnumber" name="worker.workerIdnumber" cssClass="input_1 input_1_w validate[required,minSize[10],maxSize[18]]"></s:textfield>&nbsp;&nbsp;
 					</td>
 				</tr>
-				
+
 				<tr>
 					<td align="right">
 						家庭地址
 					</td>
 					<td>
-					   <s:textfield  id="workeraddress" name="worker.workerAddress" cssClass="input_1 input_1_w validate[required,maxSize[256]"></s:textfield>&nbsp;&nbsp;
+						<s:textfield  id="workeraddress" name="worker.workerAddress" cssClass="input_1 input_1_w validate[required,maxSize[256]"></s:textfield>&nbsp;&nbsp;
 					</td>
 				</tr>
-				
-				<tr>
-					<td align="right">
-						职工身份
-					</td>
-					<td>
-					  <s:select id="workerduty" name="worker.workDuty"  list="#{'正式在职':'正式在职','劳务派遣':'劳务派遣','其他':'其他'}"></s:select>
-					</td>
-				</tr>
-				
-				
+
 				<tr>
 					<td align="right">
 						联系电话
 					</td>
 					<td>
-					   <s:textfield  id="workeraddress" name="worker.workerPhone" cssClass="input_1 input_1_w validate[custom[number]]"></s:textfield>&nbsp;&nbsp;
+						<s:textfield  id="workeraddress" name="worker.workerPhone" cssClass="input_1 input_1_w validate[custom[number]]"></s:textfield>&nbsp;&nbsp;
 					</td>
 				</tr>
-				
 
 				<tr>
 					<td width="16%" align="right">
-						获奖时间
+						合同开始日期
 					</td>
 					<td width="84%">
 						<input name="honor.honorTime" type="text" class="input_1 input_1_w timer" value="<s:date name="%{honor.honorTime}" format="yyyy-MM-dd" />" />&nbsp;&nbsp;
                      </td>
 				</tr>
+
+				<tr>
+					<td align="right">
+						合同结束日期
+					</td>
+					<td>
+						<input name="honor.joinTime" type="text" class="input_1 input_1_w timer" value="<s:date name="%{honor.joinTime}" format="yyyy-MM-dd" />" />
+						&nbsp;&nbsp;
+					</td>
+				</tr>
  				
 				<tr>
 					<td align="right">
-						荣誉种类
+						合同类别
 					</td>
                     <td>
 					    <label for="number"></label>
-						<s:select  name="honor.honorType" list="#{'劳模（先进工作者）':'劳模（先进工作者）','巾帼标兵':'巾帼标兵','五一劳动奖章':'五一劳动奖章','文明职工':'文明职工','“安康杯”竞赛先进个人':'“安康杯”竞赛先进个人','优秀工会工作者':'优秀工会工作者','其他':'其他'}"></s:select>
-					  </td>
-				      </tr>
-			     <tr>
-					<td align="right">
-						荣誉级别
+						<s:select  name="honor.honorType"  list="#{'标准':'标准','短期':'短期'}"></s:select>
 					</td>
-					 <td>
-					    <label for="number"></label>
-						<s:select  name="honor.honorLevel" list="#{'全国':'全国','省级':'省级','市级':'市级'}"></s:select>
-					  </td>
+				 </tr>
+				<tr>
+					<td align="right">
+						合同编号
+					</td>
+					<td>
+						<s:textfield name="honor.honorLevel" cssClass="input_1 input_1_w validate[maxSize[256]]"></s:textfield>&nbsp;&nbsp;<span style="color:red"></span>
+					</td>
 				</tr>
 				
 				<tr>
 					<td align="right">
-					          个人简介
+						合同金额
 					</td>
 					<td>
-					   <s:textfield name="honor.honorDesc" cssClass="input_1 input_1_w validate[required,maxSize[512]]"></s:textfield>&nbsp;&nbsp;
+					   <s:textfield name="honor.honorDesc" cssClass="input_1 input_1_w validate[required,maxSize[512]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">万元</span>
 					</td>
 				</tr>
+
 				<tr>
 					<td align="right">
-					          个人事迹
+						预期收益
+					</td>
+					<td>
+						<s:textfield name="honor.unitHonorDesc" cssClass="input_1 input_1_w validate[required,maxSize[255]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">万元</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						银行卡号
+					</td>
+					<td>
+						<s:textfield id="unitduty" name="honor.unitDuty" cssClass="input_1 input_1_w validate[required,maxSize[255]]"></s:textfield>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						银行卡号对应的姓名
+					</td>
+					<td>
+						<s:textfield name="honor.honorCode" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						银行名称
+					</td>
+					<td>
+						<s:textfield name="honor.sendDept" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						备注说明
+					</td>
+					<td>
+						<s:textfield name="honor.honorTitle" cssClass="input_1 input_1_w validate[required,maxSize[256]]"></s:textfield>&nbsp;&nbsp;
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						 合同附件 1 身份证复印件：
 					</td>
 					<td>
 					   <s:if test="null != honor.extFileDisplayName">
@@ -297,53 +323,10 @@
 					   
 					</td>
 				</tr>
-				
-				<tr>
-					<td width="16%" align="right">
-						所属单位
-					</td>
-					<td width="84%">
-						<s:if test="null == #session.userinfo_in_session.unitInfo">
-						   <label for="number"></label>
-						   <s:select id="unitList"  name="honor.inUnit"  list="#request.units" headerKey="" headerValue="请选择单位" listKey="id" listValue="unitName" ></s:select>
-						</s:if>
-					   <s:else>
-					      <s:property value="#session.userinfo_in_session.unitInfo.unitName"/>
-					   </s:else>
-					</td>
-				</tr>
-				
+
 				<tr>
 					<td align="right">
-					        成立时间
-					</td>
-					<td>
-					    <input name="honor.joinTime" type="text" class="input_1 input_1_w timer" value="<s:date name="%{honor.joinTime}" format="yyyy-MM-dd" />" />
-					    &nbsp;&nbsp;
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="right">
-					          负责人
-					</td>
-					<td>
-					    <s:textfield id="unitduty" name="honor.unitDuty" cssClass="input_1 input_1_w validate[required,maxSize[255]]"></s:textfield>
-						  &nbsp;&nbsp;         
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="right">
-					          集体简介
-					</td>
-					<td>
-					   <s:textfield name="honor.unitHonorDesc" cssClass="input_1 input_1_w validate[required,maxSize[255]]"></s:textfield>&nbsp;&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					          &nbsp;&nbsp;
+						合同附件 2 银行卡复印件：
 					</td>
 					<td>
 					   <s:if test="null != honor.extFileDisplayName2">
@@ -357,58 +340,21 @@
 					   
 					</td>
 				</tr>
+
 				<tr>
 					<td align="right">
-						表彰文件签发单位标题文号
-					</td>
-					<td>
-					   <s:textfield name="honor.honorTitle" cssClass="input_1 input_1_w validate[required,maxSize[256]]"></s:textfield>&nbsp;&nbsp;
-					</td>
-				</tr>
-				
-			   <tr>
-					<td align="right">
-						奖章编号
-					</td>
-					<td>
-					   <s:textfield name="honor.honorCode" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="right">
-						奖励发放时间
-					</td>
-					<td>
-						 <input name="honor.sendTime" type="text" class="input_1 input_1_w timer" value="<s:date name="%{honor.sendTime}" format="yyyy-MM-dd" />" />
-					    &nbsp;&nbsp;
-					</td>		
-				</tr>
-				
-				<tr>
-					<td align="right">
-						奖励发放主管部门
-					</td>
-					<td>
-					   <s:textfield name="honor.sendDept" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;
-					</td>
-				</tr>
-				
-			    <tr>  
-					<td align="right">
-						奖励物品
-					</td>
-					<td>
-					   <s:textfield name="honor.sendThing" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="right">
-						荣誉附件：
+						合同附件 3 纸质复印件：
 					</td>
 					<td > 
 <!-- 						<input type="button"  value="上传附件" class="btn_upload" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="gray">附件类型支持图片格式</span> -->
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						合同附件 4 其他：
+					</td>
+					<td >
+						<!-- 						<input type="button"  value="上传附件" class="btn_upload" />&nbsp;&nbsp;&nbsp;&nbsp;<span class="gray">附件类型支持图片格式</span> -->
 					</td>
 				</tr>
 				<tr>

@@ -15,7 +15,7 @@ public class DateFormatter {
 	public final static String NORMAL = "yyyy-MM-dd HH:mm:ss";
 	public final static String ANALYSIS_DATE = "yyyy-MM-dd";
 	public final static String ANALYSIS_DAY = "MM-dd";
-	
+	public final static String ANALYSIS_DAY_CHN = "M月d日";
 	/**
 	 * 格式化当前时间<br/>
 	 * yyyy-MM-dd HH:mm:ss
@@ -125,4 +125,23 @@ public class DateFormatter {
 	public static String formatDateForMd(Date date){
 		return new SimpleDateFormat(ANALYSIS_DAY).format(date);
 	}
+
+	/**
+	 * 格式化日期，保留（MM月dd日）
+	 *
+	 * @Title: formatDate
+	 * @Description:
+	 * @param date
+	 * @return String
+	 */
+	public static String formatDateForMdChn(Date date){
+		return new SimpleDateFormat(ANALYSIS_DAY_CHN).format(date);
+	}
+
+	public static void main(String[] args) {
+		System.out.println(formatDateForMdChn(new Date()));
+
+	}
+
+
 }

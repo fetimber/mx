@@ -2,6 +2,7 @@ package net.huimin.yk.web.actions.admin;
 
 import net.huimin.common.cnst.Const;
 import net.huimin.common.cnst.ConstConfig;
+import net.huimin.common.helper.DateFormatter;
 import net.huimin.common.helper.Judge;
 import net.huimin.common.mvc.AbstractAction;
 import net.huimin.yk.web.dao.sea.SeaUnitMapper;
@@ -19,6 +20,7 @@ import net.huimin.yk.web.services.system.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserAction extends AbstractAction{
@@ -210,7 +212,10 @@ public class UserAction extends AbstractAction{
 			//query.setCheck("1");
 			query.setCreateUser(this.logined(false).getId());
 		}
-	
+
+		String birth = DateFormatter.formatDateForMdChn(new Date());
+		query.setBirth(birth);
+
 		info = commonService.queryMainPageInfo(query);
 		return "main";
 	}

@@ -383,14 +383,14 @@
 					<td width="84%">
 						 <s:textfield id="workername" name="worker.workerName" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
 				    </td>
-				</tr>			
-						
-						
+				</tr>
+
+				<tr>
 				<td align="right">
 						生日
 					</td>
 					<td>
-					   <s:textfield id="workerage" name="worker.workerAge" cssClass="input_1 input_1_w validate[required,minSize[1],maxSize[16]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
+					   <s:textfield id="workerage" name="worker.workerAge" cssClass="input_1 input_1_w validate[required,minSize[1],maxSize[16]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">* 文本格式为 9月1日</span>
 					</td>
 				</tr>
 				
@@ -459,8 +459,7 @@
 						合同编号
 					</td>
 					<td>
-						<label for="number"></label>
-						<s:textfield name="honor.honorLevel" cssClass="input_1 input_1_w validate[maxSize[256]]"></s:textfield>&nbsp;&nbsp;<span style="color:red"></span>
+						<s:textfield name="honor.honorLevel" cssClass="input_1 input_1_w validate[maxSize[256]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
 					</td>
 				</tr>
 
@@ -469,7 +468,7 @@
 						合同额
 					</td>
 					<td>
-					   <s:textfield name="honor.honorDesc" cssClass="input_1 input_1_w validate[maxSize[256]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">万元</span>
+					   <s:textfield name="honor.honorDesc" cssClass="input_1 input_1_w validate[maxSize[256]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">万元</span>&nbsp;&nbsp;<span style="color:red">*</span>
 					</td>
 				</tr>
 
@@ -478,7 +477,34 @@
 						预期收益
 					</td>
 					<td>
-						<s:textfield name="honor.unitHonorDesc" cssClass="input_1 input_1_w validate[maxSize[255]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">万元</span>
+						<s:textfield name="honor.unitHonorDesc" cssClass="input_1 input_1_w validate[maxSize[255]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">万元</span>&nbsp;&nbsp;<span style="color:red">*</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						银行卡号
+					</td>
+					<td>
+						<s:textfield  name="honor.unitDuty" cssClass="input_1 input_1_w validate[required,maxSize[255]]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						银行卡号对应的姓名
+					</td>
+					<td>
+						<s:textfield name="honor.honorCode" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						银行名称
+					</td>
+					<td>
+						<s:textfield name="honor.sendDept" cssClass="input_1 input_1_w validate[required]"></s:textfield>&nbsp;&nbsp;<span style="color:red">*</span>
 					</td>
 				</tr>
 
@@ -493,10 +519,10 @@
 
 				<tr>
 					<td align="right">
-						合同附件
+						合同附件 1 身份证复印件：
 					</td>
 					<td>
-					   <input type="button"  value="上传附件" class="btn_upload_ext" />
+					   <input type="button"  value="上传附件" class="btn_upload_ext2" />
 					   <a style="color:red" href="#" onclick="clear_ext();">清空</a>
 					   <s:if test="null != honor.extFileDisplayName">
 					      &nbsp;&nbsp;<span id='span_upload_ext'><a href='<s:property value="honor.extFileName"/>'><s:property value="honor.extFileDisplayName"/> </a></span>
@@ -507,6 +533,24 @@
 					   <input type="hidden" id="extFileDisplayName" name="honor.extFileDisplayName" value="<s:property value="honor.extFileDisplayName"/>"/>
 					   <input type="hidden" id="extFileName" name="honor.extFileName" value="<s:property value="honor.extFileName"/>"/>
 					   
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">
+						合同附件 2 银行卡复印件：
+					</td>
+					<td>
+						<input type="button"  value="上传附件" class="btn_upload_ext" />
+						<a style="color:red" href="#" onclick="clear_ext2();">清空</a>
+						<s:if test="null != honor.extFileDisplayName2">
+							&nbsp;&nbsp;<span id='span_upload_ext2'><a href='<s:property value="honor.extFileName2"/>'><s:property value="honor.extFileDisplayName2"/> </a></span>
+						</s:if>
+						<s:else>
+							&nbsp;&nbsp;<span id="span_upload_ext2" style="color:red"></span>
+						</s:else>
+						<input type="hidden" id="extFileDisplayName2" name="honor.extFileDisplayName2" value="<s:property value="honor.extFileDisplayName2"/>"/>
+						<input type="hidden" id="extFileName2" name="honor.extFileName2" value="<s:property value="honor.extFileName2"/>"/>
 					</td>
 				</tr>
 

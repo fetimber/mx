@@ -59,6 +59,8 @@ public class SeaQueryParameter implements Serializable {
 	
 	private Date honorTimeEnd;
 
+	private String birth;
+
 	public String getKeyword() {
 		return keyword;
 	}
@@ -249,5 +251,13 @@ public class SeaQueryParameter implements Serializable {
 
 	public void setCreateUser(Integer createUser) {
 		this.createUser = createUser;
+	}
+
+	public String getBirth() {
+		return birth;
+	}
+
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 }

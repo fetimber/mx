@@ -64,75 +64,72 @@
   	  SELECT COUNT(*) from T_SEA_WORKER_POOR poor 
   	     left join T_SEA_WORKER worker on poor.worker_id = worker.id
   	     left join t_sea_govunit unit on poor.in_unit = unit.id
-  	    <where>
-  	    	<if test="null != keyword and keyword != ''">
-  	    	   
-  	    		or worker.worker_name like '%${keyword}%'
-  	    		or worker.worker_idnumber like '%${keyword}%'
-  	    		or unit.unit_name like '%${keyword}%'
-  	    		or worker.worker_address like '%${keyword}%'
-  	    		or worker.worker_phone like '%${keyword}%'
-  	    		or poor.send_dept like '%${keyword}%'
-  	    		or poor.send_thing like '%${keyword}%'
-  	    		or poor.send_remark like '%${keyword}%'
-  	    	</if>
-  	    	<if test="null != ageMin">
-  	    		and worker.worker_age >= #{ageMin}
-  	    	</if>
-  	    	<if test="null != ageMax">
-  	    		<![CDATA[and worker.worker_age <= #{ageMax}]]>
-  	    	</if>
-            <if test="null != createUser">
-                <![CDATA[and worker.create_user = #{createUser}]]>
-            </if>
-  	    	<if test="null != familyCountMin">
-  	    		and poor.family_people >= #{familyCountMin}
-  	    	</if>
-  	    	<if test="null != familyCountMax">
-  	    		<![CDATA[and poor.family_people <= #{familyCountMax}]]>
-  	    	</if>
-  	    	<if test="null != incomeMin">
-  	    		and poor.family_income >= #{incomeMin}
-  	    	</if>
-  	    	<if test="null != incomeMax">
-  	    		<![CDATA[and poor.family_income <= #{incomeMax}]]>
-  	    	</if>
-  	    	<if test="null != level and level != ''">
-  	    		and poor.poor_level = #{level}
-  	    	</if>
-  	    	<if test="null != honorTimeStart">
-  	    		and poor.create_time >= #{honorTimeStart}
-  	    	</if>
-  	    	<if test="null != honorTimeEnd">
-  	    		<![CDATA[and poor.create_time <= #{honorTimeEnd}]]>
-  	    	</if>
-  	    	<if test="null != reason and reason != ''">
-  	    		<![CDATA[and poor.poor_reason = #{reason}]]>
-  	    	</if>
-  	    	<if test="null != check and check != ''">
-  	    	    <if test="check == '-1'">
-  	    		   <![CDATA[and poor.check_flag in ('1','2','0')]]>
-  	    	    </if>
-  	    	     <if test="check == '-2'">
-  	    		   <![CDATA[and (poor.check_flag  is null or poor.check_flag = '')]]>
-  	    		</if>
-  	    		<if test="check != '-1' and check != '-2'">
-  	    		   <![CDATA[and poor.check_flag = #{check}]]>
-  	    		</if>	
-  	    	</if>
-  	    	<if test="null != checkflag and checkflag != ''">
-  	    		<![CDATA[and poor.check_flag = #{checkflag}]]>
-  	    	</if>
-            <if test="null != sex and sex != ''">
-  	    		<![CDATA[and worker.worker_sex = #{sex}]]>
-  	    	</if>
-  	    	<if test="null != cityId and cityId != ''">
-  	    		<![CDATA[and unit.unit_city = #{cityId}]]>
-  	    	</if>
-  	    	<if test="null != unit and unit != ''">
-  	    		<![CDATA[and unit.id = #{unit}]]>
-  	    	</if>
-  	    </where>
+       <where>
+           <if test="null != keyword and keyword != ''">
+               or worker.worker_name like '%${keyword}%'
+               or worker.worker_idnumber like '%${keyword}%'
+               or unit.unit_name like '%${keyword}%'
+               or worker.worker_address like '%${keyword}%'
+               or worker.worker_phone like '%${keyword}%'
+               or worker.worker_age like '%${keyword}%'
+               or poor.send_dept like '%${keyword}%'
+               or poor.send_thing like '%${keyword}%'
+               or poor.send_remark like '%${keyword}%'
+           </if>
+           <if test="null != birth">
+               and worker.worker_age = #{birth}
+           </if>
+           <if test="null != createUser">
+               <![CDATA[and worker.create_user = #{createUser}]]>
+           </if>
+           <if test="null != familyCountMin">
+               and poor.family_people >= #{familyCountMin}
+           </if>
+           <if test="null != familyCountMax">
+               <![CDATA[and poor.family_people <= #{familyCountMax}]]>
+           </if>
+           <if test="null != incomeMin">
+               and poor.family_income >= #{incomeMin}
+           </if>
+           <if test="null != incomeMax">
+               <![CDATA[and poor.family_income <= #{incomeMax}]]>
+           </if>
+           <if test="null != level and level != ''">
+               and poor.poor_level = #{level}
+           </if>
+           <if test="null != honorTimeStart">
+               and poor.create_time >= #{honorTimeStart}
+           </if>
+           <if test="null != honorTimeEnd">
+               <![CDATA[and poor.create_time <= #{honorTimeEnd}]]>
+           </if>
+           <if test="null != reason and reason != ''">
+               <![CDATA[and poor.poor_reason = #{reason}]]>
+           </if>
+           <if test="null != check and check != ''">
+               <if test="check == '-1'">
+                   <![CDATA[and poor.check_flag in ('1','2','0')]]>
+               </if>
+               <if test="check == '-2'">
+                   <![CDATA[and (poor.check_flag  is null or poor.check_flag = '')]]>
+               </if>
+               <if test="check != '-1' and check != '-2'">
+                   <![CDATA[and poor.check_flag = #{check}]]>
+               </if>
+           </if>
+           <if test="null != checkflag and checkflag != ''">
+               <![CDATA[and poor.check_flag = #{checkflag}]]>
+           </if>
+           <if test="null != sex and sex != ''">
+               <![CDATA[and worker.worker_sex = #{sex}]]>
+           </if>
+           <if test="null != cityId and cityId != ''">
+               <![CDATA[and unit.unit_city = #{cityId}]]>
+           </if>
+           <if test="null != unit and unit != ''">
+               <![CDATA[and unit.id = #{unit}]]>
+           </if>
+       </where>
   </select>
   
   <select id="queryResultByConditions" parameterType="net.huimin.yk.web.model.sea.SeaQueryParameter" resultMap="WorkerPoorMap">  
@@ -146,15 +143,13 @@
   	    		or unit.unit_name like '%${keyword}%'
   	    		or worker.worker_address like '%${keyword}%'
   	    		or worker.worker_phone like '%${keyword}%'
+                or worker.worker_age like '%${keyword}%'
   	    		or poor.send_dept like '%${keyword}%'
   	    		or poor.send_thing like '%${keyword}%'
   	    		or poor.send_remark like '%${keyword}%'
   	    	</if>
-  	    	<if test="null != ageMin">
-  	    		and worker.worker_age >= #{ageMin}
-  	    	</if>
-  	    	<if test="null != ageMax">
-  	    		<![CDATA[and worker.worker_age <= #{ageMax}]]>
+  	    	<if test="null != birth">
+  	    		and worker.worker_age = #{birth}
   	    	</if>
             <if test="null != createUser">
                 <![CDATA[and worker.create_user = #{createUser}]]>

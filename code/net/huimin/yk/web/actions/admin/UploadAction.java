@@ -1,15 +1,5 @@
 package net.huimin.yk.web.actions.admin;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
-import javax.imageio.ImageIO;
-
 import net.huimin.common.helper.FileHelper;
 import net.huimin.common.helper.Judge;
 import net.huimin.common.helper.SpringHelper;
@@ -17,10 +7,18 @@ import net.huimin.common.mvc.AbstractAction;
 import net.huimin.yk.web.dao.common.FilesMapper;
 import net.huimin.yk.web.model.common.Files;
 import net.huimin.yk.web.services.sea.SeaService;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 public class UploadAction extends AbstractAction {
 	private File upload; //上传的文件
@@ -55,9 +53,11 @@ public class UploadAction extends AbstractAction {
     		String realpath = ServletActionContext.getServletContext().getRealPath("/upload");
         	if (upload != null) {
         		String rondom = rondom();
-        		String subfix = this.uploadFileName.substring(this.uploadFileName.lastIndexOf("."));
-        		
-        		
+        		String subfix = "";
+        		if(-1 != this.uploadFileName.lastIndexOf(".")){
+					subfix = this.uploadFileName.substring(this.uploadFileName.lastIndexOf("."));
+				}
+
         		String target_name = new SimpleDateFormat("yyyyMMddHHmmssS").format(new Date()).concat(rondom).concat(subfix);
                 File savefile = new File(new File(realpath), target_name);
                 if (!savefile.getParentFile().exists())
@@ -164,9 +164,9 @@ public class UploadAction extends AbstractAction {
                   	  list =   seaService.poorWorkerImport(list,this.logined(true));
                   }	
                 }
-              
-                
-                
+
+
+
                 if(Judge.isNotNull(list)
               		  && list.size() >0 ){
                 	String remark = "";

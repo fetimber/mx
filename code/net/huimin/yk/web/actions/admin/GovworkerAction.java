@@ -5,6 +5,7 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import net.huimin.common.cnst.Const;
+import net.huimin.common.helper.DateFormatter;
 import net.huimin.common.helper.DateHelper;
 import net.huimin.common.helper.Judge;
 import net.huimin.common.mvc.AbstractAction;
@@ -51,6 +52,12 @@ public class GovworkerAction  extends AbstractAction{
 		if(Judge.isNotNull(logined.getUnitId())){
 			this.worker.setUnitId(logined.getUnitId());
 		}
+
+		if(Judge.isNotNull(this.query.getBirth())
+				&& "1".equals(this.query.getBirth())){
+			String birth = DateFormatter.formatDateForMdChn(new Date());
+			this.query.setBirth(birth);
+		}
 		
 		this.seaService.queryWorkersForPage(this.getPage(), worker );
 		return "view";
@@ -75,7 +82,13 @@ public class GovworkerAction  extends AbstractAction{
 		if(this.logined(true).getRoleId() == 13){
 			this.query.setCreateUser(this.logined(false).getId());
 		}
-		
+
+		if(Judge.isNotNull(this.query.getBirth())
+				&& "1".equals(this.query.getBirth())){
+			String birth = DateFormatter.formatDateForMdChn(new Date());
+			this.query.setBirth(birth);
+		}
+
 		this.seaService.queryWorkersPoorForPage(this.getPage(), this.query);	
 		return "view-poor";
 	}
@@ -96,7 +109,13 @@ public class GovworkerAction  extends AbstractAction{
 		if(Judge.isNotNull(this.query.getKeyword())){
 			this.query.setKeyword(this.query.getKeyword().trim());	
 		}
-		
+
+		if(Judge.isNotNull(this.query.getBirth())
+				&& "1".equals(this.query.getBirth())){
+			String birth = DateFormatter.formatDateForMdChn(new Date());
+			this.query.setBirth(birth);
+		}
+
 		this.seaService.queryWorkersPoorForPage(this.getPage(), this.query);	
 		return "view-poor1";
 	}
@@ -316,7 +335,8 @@ public class GovworkerAction  extends AbstractAction{
 			this.query.setCheck("-1");		
 		}else if(this.checkFlag.equals("2")){
 			this.query.setCheck("1");				
-		}if(this.logined(true).getRoleId() == 13){
+		}
+		if(this.logined(true).getRoleId() == 13){
 			this.query.setCreateUser(this.logined(false).getId());
 		}
 
@@ -374,7 +394,7 @@ public class GovworkerAction  extends AbstractAction{
 	            OutputStream os = response.getOutputStream();// 取得输出流
 	            response.reset();// 清空输出流
 	            response.setHeader("Content-disposition", "attachment; filename="
-	                    + new String("workerdata".getBytes("GB2312"), "UTF-8") + ".xls");// 设定输出文件头
+	                    + new String("customers".getBytes("GB2312"), "UTF-8") + ".xls");// 设定输出文件头
 	            response.setContentType("application/msexcel");// 定义输出类型
 	            WritableWorkbook workbook = Workbook.createWorkbook(os);
 	            if (workbook != null)
@@ -443,15 +463,6 @@ public class GovworkerAction  extends AbstractAction{
 	                for (int i = 0; i < workers.size(); i++) {
 	                    //行编号   
 	                	SeaWorkerPoor poor = workers.get(i);
-
-	                	/*
-						sheet.addCell(new Label(0, 0, "客户姓名 "));
-						sheet.addCell(new Label(1, 0, "生日"));
-						sheet.addCell(new Label(2, 0, "身份证号"));
-						sheet.addCell(new Label(3, 0, "联系方式"));
-						sheet.addCell(new Label(4, 0, "开户公司"));
-						sheet.addCell(new Label(5, 0, "客户经理 "));
-                         */
 
 	                	String workName = null != poor.getWorkerInfo() &&
 								null != poor.getWorkerInfo().getWorkerName() ?

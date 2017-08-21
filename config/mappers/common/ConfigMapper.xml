@@ -57,13 +57,19 @@
         ) as reftotal, 
         ( select count(*) from t_sea_worker worker
           left join t_sea_govunit unit on worker.unit_id = unit.id
-          where date(create_time)  =  curdate()   
+          where 1 = 1
             <if test="null != cityId and cityId != ''">
   	    		<![CDATA[and unit.unit_city = #{cityId}]]>
   	    	</if>
   	    	<if test="null != unit and unit != ''">
   	    		<![CDATA[and unit.id = #{unit}]]>
   	    	</if>
+            <if test="null != createUser and createUser != ''">
+              <![CDATA[and worker.create_user = #{createUser}]]>
+            </if>
+            <if test="null != birth and birth != ''">
+              <![CDATA[and worker.worker_age = #{birth}]]>
+            </if>
             ) as todayref,  
         (select count(*) from t_sea_worker_poor a 
         	left join  t_sea_worker b  on a.worker_id = b.id

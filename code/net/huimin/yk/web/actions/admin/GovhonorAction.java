@@ -331,6 +331,9 @@ public class GovhonorAction  extends AbstractAction{
 		if(Judge.isNotNull(this.query.getKeyword())){
 			this.query.setKeyword(this.query.getKeyword().trim());	
 		}
+		if(this.logined(true).getRoleId() == 13){
+			this.query.setCreateUser(this.logined(false).getId());
+		}
 		
 		this.seaService.queryHonorsForPage(this.getPage(), this.query);
 	}
@@ -374,13 +377,48 @@ public class GovhonorAction  extends AbstractAction{
 	            OutputStream os = response.getOutputStream();// 取得输出流
 	            response.reset();// 清空输出流
 	            response.setHeader("Content-disposition", "attachment; filename="
-	                    + new String("honordata".getBytes("GB2312"), "UTF-8") + ".xls");// 设定输出文件头
+	                    + new String("contracts".getBytes("GB2312"), "UTF-8") + ".xls");// 设定输出文件头
 	            response.setContentType("application/msexcel");// 定义输出类型
 	            WritableWorkbook workbook = Workbook.createWorkbook(os);
 	            if (workbook != null)
 	            {
 	                WritableSheet sheet = workbook.createSheet("获奖数据", 0);
 	                // 设置标题 sheet.addCell(new jxl.write.Label(列(从0开始), 行(从0开始), 内容.));
+					sheet.addCell(new Label(0, 0, "客户姓名"));
+					sheet.addCell(new Label(1, 0, "生日"));
+					sheet.addCell(new Label(2, 0, "身份证号"));
+					sheet.addCell(new Label(3, 0, "家庭地址"));
+					sheet.addCell(new Label(4, 0, "联系电话"));
+					sheet.addCell(new Label(5, 0, "客户经理"));
+					sheet.addCell(new Label(6, 0, "合同开始日期"));
+					sheet.addCell(new Label(7, 0, "合同结束日期"));
+					sheet.addCell(new Label(8, 0, "合同类别"));
+					sheet.addCell(new Label(9, 0, "合同编号"));
+					sheet.addCell(new Label(10, 0, "合同金额"));
+					sheet.addCell(new Label(11, 0, "预期收益"));
+					sheet.addCell(new Label(12, 0, "银行卡号"));
+					sheet.addCell(new Label(13, 0, "银行卡号对应的姓名"));
+					sheet.addCell(new Label(14, 0, "银行名称"));
+					sheet.addCell(new Label(15, 0, "备注说明"));
+
+					sheet.setColumnView(0, 30);
+					sheet.setColumnView(1, 30);
+					sheet.setColumnView(2, 30);
+					sheet.setColumnView(3, 20);
+					sheet.setColumnView(4, 20);
+					sheet.setColumnView(5, 30);
+					sheet.setColumnView(6, 30);
+					sheet.setColumnView(7, 30);
+					sheet.setColumnView(8, 30);
+					sheet.setColumnView(9, 30);
+					sheet.setColumnView(10, 30);
+					sheet.setColumnView(11, 30);
+					sheet.setColumnView(12, 30);
+					sheet.setColumnView(13, 30);
+					sheet.setColumnView(14, 30);
+					sheet.setColumnView(15, 30);
+
+					/*
 	                sheet.addCell(new Label(0, 0, "职工姓名 "));
 	                sheet.addCell(new Label(1, 0, "单位名称"));
 	                sheet.addCell(new Label(2, 0, "性别"));
@@ -422,7 +460,8 @@ public class GovhonorAction  extends AbstractAction{
 	                sheet.setColumnView(17, 30);
 	                sheet.setColumnView(18, 30);
 	                sheet.setColumnView(19, 30);
-	                
+	                */
+
 	                this.getPage().setOffset(50000);
 	                honorDataList();
 	                
@@ -432,33 +471,82 @@ public class GovhonorAction  extends AbstractAction{
 	                  
 	                for (int i = 0; i < honors.size(); i++) {
 	                    //行编号   
-	                	SeaHonor honor = honors.get(i);   
-	                    
-	                	if(Judge.isNotNull(honor.getWorkerInfo().getWorkerName())){	
-	                		sheet.addCell(new Label(0, i+1, honor.getWorkerInfo().getWorkerName()));
-	                	}else{
-	                		sheet.addCell(new Label(0, i+1, ""));
-	                	}
-	                           
-	                    sheet.addCell(new Label(1, i+1, honor.getUnitInfo().getUnitName()));
-	  	                sheet.addCell(new Label(2, i+1, honor.getWorkerInfo().getWorkerSex()));
-	  	                sheet.addCell(new Label(3, i+1, honor.getWorkerInfo().getWorkerAge()));
-	  	                sheet.addCell(new Label(4, i+1, honor.getWorkerInfo().getWorkerIdnumber()));
-	  	                sheet.addCell(new Label(5, i+1, honor.getWorkerInfo().getBankCard()));
-	  	                sheet.addCell(new Label(6, i+1, honor.getWorkerInfo().getWorkerAddress()));
-	  	                sheet.addCell(new Label(7, i+1, honor.getWorkerInfo().getWorkDuty()));
-	  	                sheet.addCell(new Label(8, i+1, honor.getWorkerInfo().getWorkerPhone()));
-	  	                sheet.addCell(new Label(9, i+1, DateHelper.dateToString(honor.getHonorTime())));
-	  	                sheet.addCell(new Label(10, i+1, honor.getHonorType()));
-	  	                sheet.addCell(new Label(11, i+1, honor.getHonorLevel()));
-	  	                sheet.addCell(new Label(12, i+1, honor.getHonorDesc()));
-	  	                sheet.addCell(new Label(13, i+1, honor.getUnitInfo().getUnitName()));
-	  	                sheet.addCell(new Label(14, i+1, DateHelper.dateToString(honor.getUnitInfo().getJoinTime())));
-	  	                sheet.addCell(new Label(15, i+1, honor.getUnitInfo().getUnitDuty()));
-	  	                sheet.addCell(new Label(16, i+1, honor.getUnitHonorDesc()));
-	  	                sheet.addCell(new Label(17, i+1, honor.getHonorTitle()));
-	  	                sheet.addCell(new Label(18, i+1,  honor.getHonorCode())); 
-	  	                sheet.addCell(new Label(19, i+1, changeCheckFlag(honor.getCheckFlag())));
+	                	SeaHonor honor = honors.get(i);
+
+						String workName = null != honor.getWorkerInfo() &&
+								null != honor.getWorkerInfo().getWorkerName() ?
+								honor.getWorkerInfo().getWorkerName() : "";
+
+						String birth = null != honor.getWorkerInfo() &&
+								null != honor.getWorkerInfo().getWorkerAge() ?
+								honor.getWorkerInfo().getWorkerAge() : "";
+
+						String idNumber = null != honor.getWorkerInfo() &&
+								null != honor.getWorkerInfo().getWorkerIdnumber() ?
+								honor.getWorkerInfo().getWorkerIdnumber() : "";
+
+						String address = null != honor.getWorkerInfo() &&
+								null != honor.getWorkerInfo().getWorkerAddress()?
+								honor.getWorkerInfo().getWorkerAddress() : "";
+
+						String phone = null != honor.getWorkerInfo() &&
+								null != honor.getWorkerInfo().getWorkerPhone() ?
+								honor.getWorkerInfo().getWorkerPhone() : "";
+
+						String createUser = null != honor.getWorkerInfo() &&
+								null != honor.getWorkerInfo().getCreateUserInfo() &&
+								null != honor.getWorkerInfo().getCreateUserInfo().getLoginName() ?
+								honor.getWorkerInfo().getCreateUserInfo().getLoginName()  : "";
+
+						String startTime = null != honor.getHonorTime() ?
+								DateHelper.dateToString(honor.getHonorTime()) : "";
+
+						String endTime = null != honor.getJoinTime() ?
+								DateHelper.dateToString(honor.getJoinTime()) : "";
+
+						String honorType = null != honor.getHonorType() ?
+								honor.getHonorType() : "";
+
+						String honorLevel = null != honor.getHonorLevel() ?
+								honor.getHonorLevel() : "";
+
+						String honorDesc = null != honor.getHonorDesc() ?
+								honor.getHonorDesc() + "万元" : "";
+
+						String unitHonorDesc = null != honor.getUnitHonorDesc() ?
+								honor.getUnitHonorDesc() + "万元": "";
+
+						String unitDuty = null != honor.getUnitDuty() ?
+								honor.getUnitDuty() : "";
+
+						String honorCode = null != honor.getHonorCode() ?
+								honor.getHonorCode() : "";
+
+						String sendDept = null != honor.getSendDept() ?
+								honor.getSendDept() : "";
+
+						String honorTitle = null != honor.getHonorTitle() ?
+								honor.getHonorTitle() : "";
+
+
+	                    sheet.addCell(new Label(0, i+1, workName));
+	  	                sheet.addCell(new Label(1, i+1, birth));
+	  	                sheet.addCell(new Label(2, i+1, idNumber));
+	  	                sheet.addCell(new Label(3, i+1, address));
+	  	                sheet.addCell(new Label(4, i+1, phone));
+	  	                sheet.addCell(new Label(5, i+1, createUser));
+						sheet.addCell(new Label(6, i+1, startTime));
+	  	                sheet.addCell(new Label(7, i+1, endTime));
+	  	                sheet.addCell(new Label(8, i+1, honorType));
+	  	                sheet.addCell(new Label(9, i+1, honorLevel));
+	  	                sheet.addCell(new Label(10, i+1, honorDesc));
+	  	                sheet.addCell(new Label(11, i+1, unitHonorDesc));
+						sheet.addCell(new Label(12, i+1, unitDuty));
+	  	                sheet.addCell(new Label(13, i+1,honorCode));
+	  	                sheet.addCell(new Label(14, i+1, sendDept));
+	  	                sheet.addCell(new Label(15, i+1, honorTitle));
+
+	  	                //sheet.addCell(new Label(19, i+1, changeCheckFlag(honor.getCheckFlag())));
 	                	
 	               }   
 	                // 从内存中写入文件中

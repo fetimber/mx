@@ -75,78 +75,70 @@
   	  SELECT COUNT(*) FROM T_SEA_HONOR honor
   	     left join T_SEA_WORKER worker on honor.honor_worker = worker.id
   	     left join t_sea_govunit unit on worker.unit_id = unit.id
-  	    <where>
-  	       honor.is_delete != 1 and honor.honor_worker  in (select id from T_SEA_WORKER)
-  	    	<if test="null != keyword and keyword != ''">
-  	    		and ( worker.worker_name like '%${keyword}%'
-  	    		or worker.worker_idnumber like '%${keyword}%'
-  	    		or unit.unit_name like '%${keyword}%'
-  	    		or worker.worker_address like '%${keyword}%'
-  	    		or worker.worker_phone like '%${keyword}%'
-  	    		or unit.unit_duty like '%${keyword}%'
-  	    		or honor.honor_desc like '%${keyword}%'
-  	    		or honor.unit_honor_desc like '%${keyword}%'
-  	    		or honor.honor_code like '%${keyword}%'
-  	    		or honor.honor_title like '%${keyword}%'
-  	    		or honor.send_dept like '%${keyword}%'
-  	    		or honor.send_thing like '%${keyword}%' )
-  	    	</if>
-  	    	<if test="null != ageMin">
-  	    		and worker.worker_age >= #{ageMin}
-  	    	</if>
-  	    	<if test="null != ageMax">
-  	    		<![CDATA[and worker.worker_age <= #{ageMax}]]>
-  	    	</if>
-  	    	<if test="null != honorTimeStart">
-  	    		and honor.honor_time >= #{honorTimeStart}
-  	    	</if>
-  	    	<if test="null != honorTimeEnd">
-  	    		<![CDATA[and honor.honor_time <= #{honorTimeEnd}]]>
-  	    	</if>
-  	    	<if test="null != joinTimeStart">
-  	    		and unit.join_time >= #{joinTimeStart}
-  	    	</if>
-  	    	<if test="null != joinTimeEnd">
-  	    		<![CDATA[unit.join_time <= #{joinTimeEnd}]]>
-  	    	</if>
-  	    	
-  	    	<if test="null != level and level != ''">
-  	    		and honor.honor_level = #{level}
-  	    	</if>
-  	    	<if test="null != honorType and honorType != ''">
-  	    		<![CDATA[and honor.honor_type = #{honorType}]]>
-  	    	</if>
-  	    	<if test="null != check and check != ''">
-  	    		<if test="check == '-1'">
-  	    		   <![CDATA[and honor.check_flag in ('1','2','0')]]>
-  	    	    </if>
-  	    	     <if test="check == '-2'">
-  	    		   <![CDATA[and (honor.check_flag  is null or honor.check_flag = '')]]>
-  	    		</if>
-  	    		<if test="check != '-1' and check != '-2'">
-  	    		   <![CDATA[and honor.check_flag = #{check}]]>
-  	    		</if>
-  	    	</if>
-  	    	<if test="null != checkflag and checkflag != ''">
-  	    		<![CDATA[and honor.check_flag = #{checkflag}]]>
-  	    	</if>
-  	    	<if test="null != honorTimeStart">
-  	    		and  honor.honor_time >= #{honorTimeStart}
-  	    	</if>
-  	    	<if test="null != honorTimeEnd">
-  	    		<![CDATA[and  honor.honor_time <= #{honorTimeEnd}]]>
-  	    	</if>
-  	    	
-            <if test="null != sex and sex != ''">
-  	    		<![CDATA[and worker.worker_sex = #{sex}]]>
-  	    	</if>
-  	    	 <if test="null != cityId and cityId != ''">
-  	    		<![CDATA[and unit.unit_city = #{cityId}]]>
-  	    	</if>
-  	    	<if test="null != unit and unit != ''">
-  	    		<![CDATA[and unit.id = #{unit}]]>
-  	    	</if>
-  	    </where>
+       <where>
+           honor.is_delete != 1 and honor.honor_worker  in (select id from T_SEA_WORKER)
+           <if test="null != keyword and keyword != ''">
+               and ( worker.worker_name like '%${keyword}%'
+               or worker.worker_idnumber like '%${keyword}%'
+               or unit.unit_name like '%${keyword}%'
+               or worker.worker_address like '%${keyword}%'
+               or worker.worker_phone like '%${keyword}%'
+               or worker.worker_age like '%${keyword}%'
+               or unit.unit_duty like '%${keyword}%'
+               or honor.honor_desc like '%${keyword}%'
+               or honor.unit_honor_desc like '%${keyword}%'
+               or honor.honor_code like '%${keyword}%'
+               or honor.honor_title like '%${keyword}%'
+               or honor.send_dept like '%${keyword}%'
+               or honor.send_thing like '%${keyword}%' )
+           </if>
+
+           <if test="null != createUser">
+               <![CDATA[and worker.create_user = #{createUser}]]>
+           </if>
+           <if test="null != honorTimeStart">
+               and honor.honor_time >= #{honorTimeStart}
+           </if>
+           <if test="null != honorTimeEnd">
+               <![CDATA[and honor.honor_time <= #{honorTimeEnd}]]>
+           </if>
+           <if test="null != joinTimeStart">
+               and unit.join_time >= #{joinTimeStart}
+           </if>
+           <if test="null != joinTimeEnd">
+               <![CDATA[unit.join_time <= #{joinTimeEnd}]]>
+           </if>
+
+           <if test="null != level and level != ''">
+               and honor.honor_level = #{level}
+           </if>
+           <if test="null != honorType and honorType != ''">
+               <![CDATA[and honor.honor_type = #{honorType}]]>
+           </if>
+           <if test="null != check and check != ''">
+               <if test="check == '-1'">
+                   <![CDATA[and honor.check_flag in ('1','2','0')]]>
+               </if>
+               <if test="check == '-2'">
+                   <![CDATA[and (honor.check_flag  is null or honor.check_flag = '')]]>
+               </if>
+               <if test="check != '-1' and check != '-2'">
+                   <![CDATA[and honor.check_flag = #{check}]]>
+               </if>
+           </if>
+           <if test="null != checkflag and checkflag != ''">
+               <![CDATA[and honor.check_flag = #{checkflag}]]>
+           </if>
+           <if test="null != sex and sex != ''">
+               <![CDATA[and worker.worker_sex = #{sex}]]>
+           </if>
+           <if test="null != cityId and cityId != ''">
+               <![CDATA[and unit.unit_city = #{cityId}]]>
+           </if>
+           <if test="null != unit and unit != ''">
+               <![CDATA[and unit.id = #{unit}]]>
+           </if>
+       </where>
   </select>
   <select id="queryResultByConditions" parameterType="net.huimin.yk.web.model.sea.SeaQueryParameter" resultMap="HonorMap">
   	SELECT * FROM T_SEA_HONOR honor
@@ -160,6 +152,7 @@
   	    		or unit.unit_name like '%${keyword}%'
   	    		or worker.worker_address like '%${keyword}%'
   	    		or worker.worker_phone like '%${keyword}%'
+                or worker.worker_age like '%${keyword}%'
   	    		or unit.unit_duty like '%${keyword}%'
   	    		or honor.honor_desc like '%${keyword}%'
   	    		or honor.unit_honor_desc like '%${keyword}%'
@@ -168,12 +161,10 @@
   	    		or honor.send_dept like '%${keyword}%'
   	    		or honor.send_thing like '%${keyword}%' )
   	    	</if>
-  	    	<if test="null != ageMin">
-  	    		and worker.worker_age >= #{ageMin}
-  	    	</if>
-  	    	<if test="null != ageMax">
-  	    		<![CDATA[and worker.worker_age <= #{ageMax}]]>
-  	    	</if>
+
+            <if test="null != createUser">
+                <![CDATA[and worker.create_user = #{createUser}]]>
+            </if>
   	    	<if test="null != honorTimeStart">
   	    		and honor.honor_time >= #{honorTimeStart}
   	    	</if>
